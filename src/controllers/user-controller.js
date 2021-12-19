@@ -1,4 +1,3 @@
-const req = require("express/lib/request");
 const db = require("../models");
 
 async function getUsers(req, res, next) {
