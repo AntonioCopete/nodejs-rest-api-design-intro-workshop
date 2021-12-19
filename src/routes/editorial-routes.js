@@ -12,4 +12,6 @@ EditorialRouter.post("/", editorialController.createEditorial);
 
 EditorialRouter.delete("/:editorialId", editorialController.deleteEditorial);
 
+EditorialRouter.patch("/:editorialId", editorialController.updateEditorial);
+
 module.exports = EditorialRouter;

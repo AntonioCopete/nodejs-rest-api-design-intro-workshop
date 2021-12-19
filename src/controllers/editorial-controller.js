@@ -1,3 +1,4 @@
+const { Editorial } = require("../models");
 const db = require("../models");
 
 async function getEditorials(req, res, next) {
@@ -5,6 +6,8 @@ async function getEditorials(req, res, next) {
     const editorial = await db.Editorial.find({})
       .select({
         name: 1,
+        authors: 1,
+        publishedBooks: 1,
       })
       .lean()
       .exec();
@@ -41,7 +44,11 @@ async function getEditorial(req, res, next) {
 
   try {
     const editorial = await db.Editorial.findOne({ _id: editorialId })
-      .select({ name: 1 })
+      .select({
+        name: 1,
+        authors: 1,
+        publishedBooks: 1,
+      })
       .lean()
       .exec();
 
@@ -66,13 +73,30 @@ async function deleteEditorial(req, res, next) {
   }
 }
 
-// async function updateEditorial(req, res, next) {
-//   const { editorialId } = req.params;
-// }
+async function updateEditorial(req, res, next) {
+  const { editorialId } = req.params;
+
+  const { authors, publishedBooks } = req.body;
+
+  try {
+    const editorial = await db.Editorial.findOneAndUpdate(
+      { _id: editorialId },
+      { $push: { authors: authors, publishedBooks: publishedBooks } },
+      { new: true },
+    )
+      .lean()
+      .exec();
+
+    res.status(200).send({ data: editorial });
+  } catch (err) {
+    next(err);
+  }
+}
 
 module.exports = {
   createEditorial,
   getEditorials,
   getEditorial,
   deleteEditorial,
+  updateEditorial,
 };

@@ -176,7 +176,7 @@ async function updateBook(req, res, next) {
       .lean()
       .exec();
 
-    req.status(200).send({ data: book });
+    res.status(200).send({ data: book });
   } catch (err) {
     next(err);
   }
