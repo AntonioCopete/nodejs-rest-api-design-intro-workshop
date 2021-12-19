@@ -10,11 +10,11 @@ const EditorialSchema = new mongoose.Schema({
     type: Date,
   },
   authors: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: [mongoose.SchemaTypes.ObjectId],
     ref: "user",
   },
   publishedBooks: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: [mongoose.SchemaTypes.ObjectId],
     ref: "book",
   },
 });
