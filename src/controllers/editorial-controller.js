@@ -8,7 +8,7 @@ async function getEditorials(req, res, next) {
       })
       .lean()
       .exec();
-    res.status(200).send({
+    res.status(201).send({
       succes: true,
       data: editorial,
     });
@@ -29,11 +29,50 @@ async function createEditorial(req, res, next) {
     });
 
     res.status(200).send({
-      data: { _id: editorial._id },
+      editorial: editorial,
     });
   } catch (err) {
     next(err);
   }
 }
 
-module.exports = { createEditorial, getEditorials };
+async function getEditorial(req, res, next) {
+  const { editorialId } = req.params;
+
+  try {
+    const editorial = await db.Editorial.findOne({ _id: editorialId })
+      .select({ name: 1 })
+      .lean()
+      .exec();
+
+    res.status(200).send({
+      success: true,
+      data: editorial,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function deleteEditorial(req, res, next) {
+  const { editorialId } = req.params;
+
+  try {
+    const editorial = await db.Editorial.findOneAndDelete({ _id: editorialId });
+
+    res.status(200).send({ data: editorialId });
+  } catch (err) {
+    next(err);
+  }
+}
+
+// async function updateEditorial(req, res, next) {
+//   const { editorialId } = req.params;
+// }
+
+module.exports = {
+  createEditorial,
+  getEditorials,
+  getEditorial,
+  deleteEditorial,
+};

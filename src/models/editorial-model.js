@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 
-// const AuthorsArray = new mongoose.Schema({ type: String });
-
 const EditorialSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -12,11 +10,11 @@ const EditorialSchema = new mongoose.Schema({
     type: Date,
   },
   authors: {
-    type: [mongoose.SchemaTypes.ObjectId],
+    type: mongoose.SchemaTypes.ObjectId,
     ref: "user",
   },
   publishedBooks: {
-    type: [mongoose.SchemaType.ObjectId],
+    type: mongoose.SchemaTypes.ObjectId,
     ref: "book",
   },
 });
